@@ -26,7 +26,6 @@ public class Robot {
         this.yPosition = yPosition;
         this.version = version;
         this.monde = monde;
-        this.AdesanyaK = AdesanyaK;
     }
 
     // La méthode de déplacement, en diagonale vers le bas à droite
