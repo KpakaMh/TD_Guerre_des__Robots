@@ -90,20 +90,8 @@ public class Robot {
     public void deplacer() {
         int cibleX = this.xPosition + pasX;
         int cibleY = this.yPosition + pasY;
-// ... (code de déplacement normal ou après élimination d'un ennemi) ...
 
-        this.xPosition = cibleX;
-        this.yPosition = cibleY;
-        System.out.println(this.nom + " s'est déplacé en (" + this.xPosition + ", " + this.yPosition + ")");
-
-        // NOUVEAU : Vérification des cases Bonus après l'arrivée sur la case
-        Soin bonusSoin = monde.getSoinSurCase(this.xPosition, this.yPosition);
-        if (bonusSoin != null) {
-            bonusSoin.effet(this); // Application du soin complet au robot courant
-            monde.consommerSoin(bonusSoin); // Le bonus est consommé et disparaît du plateau
-        }
-
-        // 1. Est-ce qu'on tape un mur de l'arène ?
+        // 1. Rebond sur les limites de la carte
         if (!monde.estDansLesLimites(cibleX, cibleY)) {
             System.out.println(this.nom + " heurte un mur et fait demi-tour !");
             pasX = -pasX;
@@ -112,35 +100,42 @@ public class Robot {
             cibleY = this.yPosition + pasY;
         }
 
-        // 2. Est-ce qu'un autre robot bloque la nouvelle case cible ?
-        Robot cible = monde.getRobotSurCase(cibleX, cibleY);
+        // 2. Recherche d'un ENNEMI sur la case cible (en s'ignorant soi-même)
+        Robot cible = monde.getRobotSurCase(cibleX, cibleY, this);
 
-        if (cible != null) { // La case est occupée par un ennemi !
+        if (cible != null) { // Un autre robot occupe la case !
             System.out.println(this.nom + " est bloqué par " + cible.getNom() + " ! Il attaque !");
-
-            // On attaque avec 30 de dégâts de base (vous pouvez changer cette valeur)
             this.attaquer(cible, 30);
 
-            // 3. Vérification de la mort de la cible
+            // Si l'ennemi meurt, on prend sa place
             if (cible.getPointsDeVieActuels() == 0) {
                 System.out.println("💥 BOOM ! " + cible.getNom() + " a été détruit par " + this.nom + " !");
-                monde.retirerRobot(cible); // La cible disparaît de la liste
-
-                // L'ennemi est mort, on prend sa place !
+                monde.retirerRobot(cible);
                 this.xPosition = cibleX;
                 this.yPosition = cibleY;
                 System.out.println(this.nom + " avance sur les restes de son ennemi en (" + this.xPosition + ", " + this.yPosition + ")");
+
+                verifierCaseSoin();
             } else {
                 System.out.println(cible.getNom() + " survit à l'attaque. " + this.nom + " reste sur place ce tour-ci.");
             }
         } else {
-            // 4. La case est totalement vide, déplacement normal
+            // Case libre : déplacement classique
             this.xPosition = cibleX;
             this.yPosition = cibleY;
-            System.out.println(this.nom + " s'est déplacé paisiblement en (" + this.xPosition + ", " + this.yPosition + ")");
+            System.out.println(this.nom + " s'est déplacé en (" + this.xPosition + ", " + this.yPosition + ")");
+
+            verifierCaseSoin();
         }
     }
 
+    private void verifierCaseSoin() {
+        Soin bonusSoin = monde.getSoinSurCase(this.xPosition, this.yPosition);
+        if (bonusSoin != null) {
+            bonusSoin.effet(this);
+            monde.consommerSoin(bonusSoin);
+        }
+    }
     // Getters
     public String getNom() { return this.nom; }
     public int getxPosition() { return xPosition; }

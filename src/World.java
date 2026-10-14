@@ -77,15 +77,16 @@ public class World {
     public boolean estDansLesLimites(int x, int y) {
         return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
-    // NOUVEAU : Le Radar. Renvoie le robot présent sur une case, ou 'null' si elle est vide.
-    public Robot getRobotSurCase(int x, int y) {
+    // Le radar prend désormais le robot demandeur en paramètre pour l'ignorer
+    public Robot getRobotSurCase(int x, int y, Robot demandeur) {
         for (Robot r : robots) {
-            if (r.getxPosition() == x && r.getyPosition() == y) {
-                return r; // On a trouvé un robot bloquant !
+            if (r != demandeur && r.getxPosition() == x && r.getyPosition() == y) {
+                return r; // Renvoie uniquement un AUTRE robot
             }
         }
-        return null; // La case est vide
+        return null;
     }
+
     // NOUVEAU : Le Fossoyeur. Retire un robot détruit du plateau.
     public void retirerRobot(Robot r) {
         robots.remove(r);
