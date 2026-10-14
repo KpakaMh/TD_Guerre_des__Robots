@@ -6,6 +6,9 @@ public class Main {
         Soin soinMap = new Soin(1, 4);
         arene.ajouterSoin(soinMap);
         arene.afficherEtat();
+        // Ajout d'une case Soin et d'une case Piege
+        arene.ajouterCaseSpeciale(new Soin(1, 4));
+        arene.ajouterCaseSpeciale(new Piege(2, 5));
 
 
         // AJOUT DU 7ème PARAMÈTRE (ex: 100, 80, 120...) POUR LES POINTS DE VIE

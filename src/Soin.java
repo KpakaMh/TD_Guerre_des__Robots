@@ -1,18 +1,13 @@
-public class Soin {
-    private int x;
-    private int y;
+public class Soin extends CaseSpecial {
 
     public Soin(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
 
-    // La méthode prend en paramètre le Robot qui bénéficie du soin
+    @Override
     public void effet(Robot robot) {
         if (robot != null) {
-            // On calcule le nombre de PV nécessaires pour restaurer 100% de sa santé
             int pvManquants = robot.getPointsDeVieMax() - robot.getPointsDeVieActuels();
-
             if (pvManquants > 0) {
                 robot.reparer(pvManquants);
                 System.out.println("💚 BONUS SOIN ! " + robot.getNom() + " marche sur une case Soin en ("
@@ -23,8 +18,4 @@ public class Soin {
             }
         }
     }
-
-    // Getters
-    public int getX() { return x; }
-    public int getY() { return y; }
 }

@@ -12,6 +12,7 @@ public class Robot {
     private int version;
     private static String NomCreateur = "Adesanya_K";
 
+
     // Le robot connaît le monde dans lequel il évolue
     protected World monde;
     protected CapaciteCombat capaciteCombat = new CapacitePhysique();
@@ -149,5 +150,12 @@ public class Robot {
     }
     public int getPointsDeVieMax() {
         return pointsDeVieMax;
+    }
+    private void verifierCaseSpeciale() {
+        CaseSpecial caseSpeciale = monde.getCaseSpecialeSurCase(this.xPosition, this.yPosition);
+        if (caseSpeciale != null) {
+            caseSpeciale.effet(this); // Polymorphisme : exécute le bon effet (Soin ou Piege)
+            monde.consommerCaseSpeciale(caseSpeciale); // La case est consommée
+        }
     }
 }

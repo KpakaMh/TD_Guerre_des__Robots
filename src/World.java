@@ -11,6 +11,8 @@ public class World {
     private List<Robot> robots;
     // NOUVEAU : Liste des cases de soin
     private List<Soin> casesSoin = new ArrayList<>();
+    // Une seule liste pour tous les bonus et malus !
+    private List<CaseSpecial> casesSpeciales = new ArrayList<>();
 
 
     // Le constructeur fixe la taille du monde à sa création
@@ -111,6 +113,22 @@ public class World {
 
 
     public void ajouterRobot(RobotTourelle tourelle) {
+    }
+    // Méthode générique pour ajouter un Soin ou un Piege
+    public void ajouterCaseSpeciale(CaseSpecial c) {
+        this.casesSpeciales.add(c);
+    }
+    public CaseSpecial getCaseSpecialeSurCase(int x, int y) {
+        for (CaseSpecial c : casesSpeciales) {
+            if (c.getX() == x && c.getY() == y) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void consommerCaseSpeciale(CaseSpecial c) {
+        this.casesSpeciales.remove(c);
     }
 }
 
