@@ -2,7 +2,7 @@
 
 public class RobotRapide extends Robot {
 
-    // N'oubliez pas d'ajouter 'int pvMax' à la fin des parenthèses ici :
+
     public RobotRapide(String nomPersonnalise, int xPosition, int yPosition, int version, World monde, String nomCreateur, int pvMax) {
         // Et n'oubliez pas de l'ajouter à la fin du super() ici :
         super(nomPersonnalise, xPosition, yPosition, version, monde, nomCreateur, pvMax);

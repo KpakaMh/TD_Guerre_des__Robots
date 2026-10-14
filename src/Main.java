@@ -30,7 +30,7 @@ public class Main {
         RobotCrabe crabe = new RobotCrabe("Crabator", p5[0], p5[1], 1, arene, "Charlie", 120);
 
         int[] p6 = arene.trouverPositionLibre();
-        RobotTorpille torpille = new RobotTorpille("Submar", p6[0], p6[1], 1, arene, "Adesanya_K");
+        RobotTorpille torpille = new RobotTorpille ("torpille", p6[0], p6[1], 1, arene, "Adesanya_K", 45);
 
         int[] p7 = arene.trouverPositionLibre();
         RobotTourelle tourelle = new RobotTourelle("Gardien", p7[0], p7[1], 1, arene, "Adesanya_K", 200);
@@ -43,6 +43,7 @@ public class Main {
         System.out.println("- " + flash.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
         System.out.println("- " + jumper.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
         System.out.println("-"+robotBlesse.getNom() + "(Créateur: " + robotBlesse.getNomCreateur() + ")");
+        System.out.println("-"+torpille.getNom() + "Créateur:" + torpille.getNomCreateur() + ")");
 
         System.out.println("\n=== 3. AFFICHAGE DES MANIÈRES DE DÉPLACEMENT ===");
         robotClassique.afficherManiereDeplacement();
@@ -50,6 +51,7 @@ public class Main {
         jumper.afficherManiereDeplacement();
         crabe.afficherManiereDeplacement();
         robotBlesse.afficherManiereDeplacement();
+        torpille.afficherManiereDeplacement();
 
         System.out.println("\n=== 4. SIMULATION DES DÉPLACEMENTS ===");
         robotClassique.deplacer();
@@ -58,6 +60,7 @@ public class Main {
         crabe.deplacer();
         // 3. Le robot se déplace et tombe sur la case Soin (1, 4)
         robotBlesse.deplacer(); // Avance en (1, 4) et active le Soin automatique !
+        torpille.deplacer();
 
         // ---------------- NOUVEAUTÉ ICI ----------------
 
@@ -102,5 +105,6 @@ public class Main {
         flash.afficherManiereDeplacement();
         torpille.afficherManiereDeplacement();
         robotBlesse.afficherManiereDeplacement();
+        torpille.afficherManiereDeplacement();
     }
 }

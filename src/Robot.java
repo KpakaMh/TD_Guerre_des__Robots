@@ -82,7 +82,7 @@ public class Robot {
 
     // NOUVEAU : La méthode qui décrit le déplacement
     public void afficherManiereDeplacement() {
-        System.out.println("Je suis un Robot classique : je me déplace d'1 case en diagonale (bas-droite).");
+        System.out.println("Je suis un Robot "+getNom()+" et   je me déplace suivant ("+ getyPosition()+ ",  "+getxPosition());
         System.out.println("Robot : " + this.nom + " | PV : " + this.pointsDeVieActuels + "/" + this.pointsDeVieMax);
     }
     // La méthode de déplacement, en diagonale vers le bas à droite
