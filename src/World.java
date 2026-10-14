@@ -9,6 +9,8 @@ public class World {
     private int minY;
     private int maxY;
     private List<Robot> robots;
+    // NOUVEAU : Liste des cases de soin
+    private List<Soin> casesSoin = new ArrayList<>();
 
 
     // Le constructeur fixe la taille du monde à sa création
@@ -20,8 +22,21 @@ public class World {
         this.maxY = maxY;
         this.robots = new ArrayList<>(); // Initialisationd de la liste de robots
     }
-
-
+    //NOUVEAU : Permet de placer une case Soin dans le monde
+    public void ajouterSoin(Soin soin) {
+        this.casesSoin.add(soin);
+    }
+    public Soin getSoinSurCase(int x, int y) {
+        for (Soin s : casesSoin) {
+            if (s.getX() == x && s.getY() == y) {
+                return s;
+            }
+        }
+        return null;
+    }
+    public void consommerSoin(Soin soin) {
+        this.casesSoin.remove(soin);
+    }
     // Pour router un robot
     public void ajouterRoboot (Robot robot){
         this.robots.add(robot);

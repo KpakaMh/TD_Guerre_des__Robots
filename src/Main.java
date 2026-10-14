@@ -3,11 +3,19 @@ public class Main {
 
         System.out.println("=== 1. CRÉATION DU MONDE ===");
         World arene = new World(-5, 5, 0, 10);
+        Soin soinMap = new Soin(1, 4);
+        arene.ajouterSoin(soinMap);
         arene.afficherEtat();
+
 
         // AJOUT DU 7ème PARAMÈTRE (ex: 100, 80, 120...) POUR LES POINTS DE VIE
         int[] p1 = arene.trouverPositionLibre();
         Robot robotClassique = new Robot("RobotClassique", p1[0], p1[1], 1, arene, "Alice", 100);
+
+
+        // 2. On crée un robot blessé qui va se déplacer vers cette case
+        Robot robotBlesse = new Robot("Warrior", 0, 5, 1, arene, "Testeur", 100);
+        robotBlesse.subirDegats(80); // Il lui reste 20 PV
 
         int[] p2 = arene.trouverPositionLibre();
         Robot robotAnonymize = new Robot("Bo", p2[0], p2[1], 1, arene, "Bob", 100);
@@ -34,18 +42,22 @@ public class Main {
         System.out.println("- " + robotAnonymize.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
         System.out.println("- " + flash.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
         System.out.println("- " + jumper.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
+        System.out.println("-"+robotBlesse.getNom() + "(Créateur: " + robotBlesse.getNomCreateur() + ")");
 
         System.out.println("\n=== 3. AFFICHAGE DES MANIÈRES DE DÉPLACEMENT ===");
         robotClassique.afficherManiereDeplacement();
         flash.afficherManiereDeplacement();
         jumper.afficherManiereDeplacement();
         crabe.afficherManiereDeplacement();
+        robotBlesse.afficherManiereDeplacement();
 
         System.out.println("\n=== 4. SIMULATION DES DÉPLACEMENTS ===");
         robotClassique.deplacer();
         flash.deplacer();
         jumper.deplacer();
         crabe.deplacer();
+        // 3. Le robot se déplace et tombe sur la case Soin (1, 4)
+        robotBlesse.deplacer(); // Avance en (1, 4) et active le Soin automatique !
 
         // ---------------- NOUVEAUTÉ ICI ----------------
 
@@ -60,6 +72,7 @@ public class Main {
         // On équipe deux combattants positroniques
         flash.setCapaciteCombat(new CapacitePositronique());
         torpille.setCapaciteCombat(new CapacitePositronique());
+        robotAnonymize.deplacer();
 
         System.out.println("Les capacités ont été distribuées aux robots !");
 
@@ -88,5 +101,6 @@ public class Main {
         crabe.afficherManiereDeplacement();
         flash.afficherManiereDeplacement();
         torpille.afficherManiereDeplacement();
+        robotBlesse.afficherManiereDeplacement();
     }
 }

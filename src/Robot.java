@@ -90,6 +90,18 @@ public class Robot {
     public void deplacer() {
         int cibleX = this.xPosition + pasX;
         int cibleY = this.yPosition + pasY;
+// ... (code de déplacement normal ou après élimination d'un ennemi) ...
+
+        this.xPosition = cibleX;
+        this.yPosition = cibleY;
+        System.out.println(this.nom + " s'est déplacé en (" + this.xPosition + ", " + this.yPosition + ")");
+
+        // NOUVEAU : Vérification des cases Bonus après l'arrivée sur la case
+        Soin bonusSoin = monde.getSoinSurCase(this.xPosition, this.yPosition);
+        if (bonusSoin != null) {
+            bonusSoin.effet(this); // Application du soin complet au robot courant
+            monde.consommerSoin(bonusSoin); // Le bonus est consommé et disparaît du plateau
+        }
 
         // 1. Est-ce qu'on tape un mur de l'arène ?
         if (!monde.estDansLesLimites(cibleX, cibleY)) {
