@@ -1,13 +1,91 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+public class Main {
+    public static void main(String[] args) {
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+        System.out.println("=== 1. CRÉATION DU MONDE ===");
+        World arene = new World(-5, 5, 0, 10);
+
+        // AJOUT DU 7ème PARAMÈTRE (ex: 100, 80, 120...) POUR LES POINTS DE VIE
+        int[] p1 = arene.trouverPositionLibre();
+        Robot robotClassique = new Robot("RobotClassique", p1[0], p1[1], 1, arene, "Alice", 100);
+
+        int[] p2 = arene.trouverPositionLibre();
+        Robot robotAnonymize = new Robot("Bo", p2[0], p2[1], 1, arene, "Bob", 100);
+
+        int[] p3 = arene.trouverPositionLibre();
+        RobotRapide flash = new RobotRapide("FlashBot", p3[0], p3[1], 2, arene, "Charlie", 80);
+
+        int[] p4 = arene.trouverPositionLibre();
+        RobotSauteur jumper = new RobotSauteur("JumperBot", p4[0], p4[1], 1, arene, "Alice", 90);
+
+        int[] p5 = arene.trouverPositionLibre();
+        RobotCrabe crabe = new RobotCrabe("Crabator", p5[0], p5[1], 1, arene, "Charlie", 120);
+
+        int[] p6 = arene.trouverPositionLibre();
+        RobotTorpille torpille = new RobotTorpille("Submar", p6[0], p6[1], 1, arene, "Adesanya_K");
+
+        int[] p7 = arene.trouverPositionLibre();
+        RobotTourelle tourelle = new RobotTourelle("Gardien", p7[0], p7[1], 1, arene, "Adesanya_K", 200);
+
+        System.out.println("Monde initialisé avec succès !");
+
+        System.out.println("\n=== 2. CRÉATION DES ROBOTS ===");
+        System.out.println("- " + robotClassique.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
+        System.out.println("- " + robotAnonymize.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
+        System.out.println("- " + flash.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
+        System.out.println("- " + jumper.getNom() + " (Créateur : " + Robot.getNomCreateur() + ")");
+
+        System.out.println("\n=== 3. AFFICHAGE DES MANIÈRES DE DÉPLACEMENT ===");
+        robotClassique.afficherManiereDeplacement();
+        flash.afficherManiereDeplacement();
+        jumper.afficherManiereDeplacement();
+        crabe.afficherManiereDeplacement();
+
+        System.out.println("\n=== 4. SIMULATION DES DÉPLACEMENTS ===");
+        robotClassique.deplacer();
+        flash.deplacer();
+        jumper.deplacer();
+        crabe.deplacer();
+
+        // ---------------- NOUVEAUTÉ ICI ----------------
+
+        System.out.println("\n=== 5. ÉQUIPEMENT DES CAPACITÉS DE COMBAT ===");
+        // Par défaut ils sont physiques, mais on peut les forcer pour la clarté
+        robotClassique.setCapaciteCombat(new CapacitePhysique());
+
+        // On équipe deux mages
+        jumper.setCapaciteCombat(new CapaciteMagique());
+        crabe.setCapaciteCombat(new CapaciteMagique());
+
+        // On équipe deux combattants positroniques
+        flash.setCapaciteCombat(new CapacitePositronique());
+        torpille.setCapaciteCombat(new CapacitePositronique());
+
+        System.out.println("Les capacités ont été distribuées aux robots !");
+
+        System.out.println("\n=== 6. SIMULATION DE COMBAT ===");
+
+        // Cas 1 : Attaque Physique (Normale) -> Dégâts normaux
+        System.out.println("\n--- Cas 1 : Attaque Physique ---");
+        robotClassique.attaquer(jumper, 20);
+
+        // Cas 2 : Attaque Magique contre Magique -> Immunité
+        System.out.println("\n--- Cas 2 : Magique vs Magique (Immunité) ---");
+        jumper.attaquer(crabe, 30);
+
+        // Cas 3 : Attaque Positronique contre Positronique -> Dégâts doublés
+        System.out.println("\n--- Cas 3 : Positronique vs Positronique (Dégâts x2) ---");
+        flash.attaquer(torpille, 25);
+
+        // Cas 4 : Attaque Magique contre Physique -> Dégâts normaux
+        System.out.println("\n--- Cas 4 : Magique vs Physique (Normal) ---");
+        crabe.attaquer(robotClassique, 15);
+
+        // Bilan des PV
+        System.out.println("\n=== BILAN DES POINTS DE VIE APRÈS LE COMBAT ===");
+        robotClassique.afficherManiereDeplacement();
+        jumper.afficherManiereDeplacement();
+        crabe.afficherManiereDeplacement();
+        flash.afficherManiereDeplacement();
+        torpille.afficherManiereDeplacement();
     }
 }

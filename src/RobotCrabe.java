@@ -1,24 +1,23 @@
 public class RobotCrabe extends Robot {
 
-    public RobotCrabe(String nomPersonnalise, int xPosition, int yPosition, int version, World monde, String nomCreateur) {
-        super(nomPersonnalise, xPosition, yPosition, version, monde, nomCreateur);
+    public RobotCrabe(String nomPersonnalise, int xPosition, int yPosition, int version, World monde, String nomCreateur, int pvMax) {
+        super(nomPersonnalise, xPosition, yPosition, version, monde, nomCreateur, pvMax);
     }
-
-    @Override
-    public void afficherManiereDeplacement() {
-        System.out.println("Je suis un RobotCrabe : je marche sur le côté, d'1 case vers la gauche !");
-    }
-
+        @Override
+        public void afficherManiereDeplacement () {
+            System.out.println("Je suis un RobotCrabe : je marche sur le côté, d'1 case vers la gauche !");
+        }
     @Override
     public void deplacer() {
-        int nouvellePositionX = this.xPosition - 1; // -1 en X (gauche)
-        int nouvellePositionY = this.yPosition;     // Ne change pas en Y
+        int cibleX = this.xPosition + 1;
+        int cibleY = this.yPosition - 1;
 
-        if (nouvellePositionX >= getMonde().getMinX()) {
-            this.xPosition = nouvellePositionX;
-            System.out.println(getNom() + " a glissé à gauche : (" + this.xPosition + ", " + this.yPosition + ")");
+        if (monde.estPositionValideEtLibre(cibleX, cibleY)) {
+            this.xPosition = cibleX;
+            this.yPosition = cibleY;
+            System.out.println(this.nom + " s'est déplacé en (" + this.xPosition + ", " + this.yPosition + ")");
         } else {
-            System.out.println(getNom() + " est bloqué par le bord gauche du monde !");
+            System.out.println(this.nom + " ne peut pas bouger (Bloqué par le bord ou un autre robot !)");
         }
     }
 }
