@@ -3,6 +3,7 @@ public class Main {
 
         System.out.println("=== 1. CRÉATION DU MONDE ===");
         World arene = new World(-5, 5, 0, 10);
+        arene.afficherEtat();
 
         // AJOUT DU 7ème PARAMÈTRE (ex: 100, 80, 120...) POUR LES POINTS DE VIE
         int[] p1 = arene.trouverPositionLibre();

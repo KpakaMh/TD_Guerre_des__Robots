@@ -91,22 +91,41 @@ public class Robot {
         int cibleX = this.xPosition + pasX;
         int cibleY = this.yPosition + pasY;
 
-        if (!monde.estPositionValideEtLibre(cibleX, cibleY)) {
-            System.out.println(this.nom + " heurte un obstacle et fait demi-tour !");
-            // On inverse la direction !
+        // 1. Est-ce qu'on tape un mur de l'arène ?
+        if (!monde.estDansLesLimites(cibleX, cibleY)) {
+            System.out.println(this.nom + " heurte un mur et fait demi-tour !");
             pasX = -pasX;
             pasY = -pasY;
-
-            // On recalcule la nouvelle case cible après le rebond
             cibleX = this.xPosition + pasX;
             cibleY = this.yPosition + pasY;
         }
-        if (monde.estPositionValideEtLibre(cibleX, cibleY)) {
+
+        // 2. Est-ce qu'un autre robot bloque la nouvelle case cible ?
+        Robot cible = monde.getRobotSurCase(cibleX, cibleY);
+
+        if (cible != null) { // La case est occupée par un ennemi !
+            System.out.println(this.nom + " est bloqué par " + cible.getNom() + " ! Il attaque !");
+
+            // On attaque avec 30 de dégâts de base (vous pouvez changer cette valeur)
+            this.attaquer(cible, 30);
+
+            // 3. Vérification de la mort de la cible
+            if (cible.getPointsDeVieActuels() == 0) {
+                System.out.println("💥 BOOM ! " + cible.getNom() + " a été détruit par " + this.nom + " !");
+                monde.retirerRobot(cible); // La cible disparaît de la liste
+
+                // L'ennemi est mort, on prend sa place !
+                this.xPosition = cibleX;
+                this.yPosition = cibleY;
+                System.out.println(this.nom + " avance sur les restes de son ennemi en (" + this.xPosition + ", " + this.yPosition + ")");
+            } else {
+                System.out.println(cible.getNom() + " survit à l'attaque. " + this.nom + " reste sur place ce tour-ci.");
+            }
+        } else {
+            // 4. La case est totalement vide, déplacement normal
             this.xPosition = cibleX;
             this.yPosition = cibleY;
-            System.out.println(this.nom + " s'est déplacé en (" + this.xPosition + ", " + this.yPosition + ")");
-        } else {
-            System.out.println(this.nom + " ne peut pas bouger (Bloqué par le bord ou un autre robot !)");
+            System.out.println(this.nom + " s'est déplacé paisiblement en (" + this.xPosition + ", " + this.yPosition + ")");
         }
     }
 
