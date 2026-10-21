@@ -130,5 +130,9 @@ public class World {
     public void consommerCaseSpeciale(CaseSpecial c) {
         this.casesSpeciales.remove(c);
     }
+
+    public List<Robot> getRobots() {
+        return robots;
+    }
 }
 

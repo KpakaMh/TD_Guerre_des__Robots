@@ -1,6 +1,5 @@
 public class Robot {
 
-    // Le compteur global pour tous les robots (pour Anonymous1, Anonymous2...)
     private static int counter = 1;
     protected String nom;
     protected int xPosition;
@@ -146,7 +145,7 @@ public class Robot {
     public World getMonde() { return monde; }
 
     public int getPointsDeVieActuels() {
-        return pointsDeVieMax;
+        return pointsDeVieActuels;
     }
     public int getPointsDeVieMax() {
         return pointsDeVieMax;
@@ -157,5 +156,12 @@ public class Robot {
             caseSpeciale.effet(this); // Polymorphisme : exécute le bon effet (Soin ou Piege)
             monde.consommerCaseSpeciale(caseSpeciale); // La case est consommée
         }
+    }
+
+    protected String getXPosition() {
+        return getxPosition() + "";
+    }
+    protected String getYPosition() {
+        return getyPosition() + "";
     }
 }
